@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="top: 40px;width:90%;margin: auto;">
+   <div style="width:100%; margin: auto;height:100%;display: flex;flex-wrap: wrap;">
+    {% if events|length == 0 %} 
+      <h2>No Results Found!</h2>
+    {% else %}
+      {% for event in events %}
+
+        {% include 'home/eventCard.html' %}
+  
+      {% endfor %}
+    {% endif %}
+   </div>
+   {% if events.has_other_pages %}
+  <ul class="pagination" style="position: fixed;bottom: 35px;width: auto ;left:45%;">
+    {% if events.has_previous %}
+      <li><a href="?page={{ events.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in events.paginator.page_range %}
+      {% if events.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if events.has_next %}
+      <li><a href="?page={{ events.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+
+   
+{% endblock %}
